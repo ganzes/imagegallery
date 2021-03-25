@@ -73,6 +73,15 @@ public class FileController {
                 .body(fileDB.getData());
     }
 
+    @GetMapping("/files/{name}")
+    public ResponseEntity<byte[]> getFileByName(@PathVariable String name) {
+        FileDB fileDB = storageService.getFileByName(name);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+                .body(fileDB.getData());
+    }
+
     @GetMapping("/filesthumb/{id}")
     public ResponseEntity<?> makeThumbnail(@PathVariable String id) throws Exception {
 
@@ -94,6 +103,12 @@ public class FileController {
     @DeleteMapping("/files/{id}")
     public ResponseEntity<Void> deleteFilesDBById (@PathVariable String id){
         storageService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/files/{name}")
+    public ResponseEntity<Void> deleteFilesDBByName (@PathVariable String name){
+        storageService.deleteByName(name);
         return ResponseEntity.noContent().build();
     }
 

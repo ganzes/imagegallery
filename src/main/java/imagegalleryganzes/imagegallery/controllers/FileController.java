@@ -1,5 +1,6 @@
 package imagegalleryganzes.imagegallery.controllers;
 
+import imagegalleryganzes.imagegallery.configurations.ThumbnailatorConfiguration;
 import imagegalleryganzes.imagegallery.entities.FileDB;
 import imagegalleryganzes.imagegallery.entities.ResponseFile;
 import imagegalleryganzes.imagegallery.entities.ResponseMessage;
@@ -12,7 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
+import java.io.File;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,9 +29,12 @@ public class FileController {
     @Autowired
     private FileStorageService storageService;
 
+    @Autowired
+    private ThumbnailatorConfiguration thumbnailatorConfiguration;
+
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
+        String message;
         try {
             storageService.store(file);
 
@@ -63,5 +72,23 @@ public class FileController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
                 .body(fileDB.getData());
+    }
+
+    @PostMapping("/files/{id}")
+    public ResponseEntity<?> makeThumbnail(@PathVariable String id) throws Exception {
+
+        FileDB fileDB = storageService.getFile(id);
+        BufferedImage originalImage = ImageIO.read((ImageInputStream) fileDB);
+        BufferedImage outputImage = thumbnailatorConfiguration.resizeImage(originalImage, 200, 200);
+        FileDB fileDBt = storageService.store((MultipartFile) outputImage);
+        String message;
+
+        try {
+            message = "Uploaded the thumbnail successfully: " + fileDBt.getName();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+        } catch (Exception e) {
+            message = "Could not upload the thumbnail: " + fileDBt.getName() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
     }
 }

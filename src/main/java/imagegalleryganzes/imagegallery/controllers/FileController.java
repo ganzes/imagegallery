@@ -13,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import springfox.documentation.annotations.ApiIgnore;
-import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
@@ -26,6 +24,7 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RestController
 public class FileController {
+
     @Autowired
     private FileStorageService storageService;
 
@@ -74,7 +73,7 @@ public class FileController {
                 .body(fileDB.getData());
     }
 
-    @PostMapping("/files/{id}")
+    @GetMapping("/filesthumb/{id}")
     public ResponseEntity<?> makeThumbnail(@PathVariable String id) throws Exception {
 
         FileDB fileDB = storageService.getFile(id);
@@ -90,5 +89,17 @@ public class FileController {
             message = "Could not upload the thumbnail: " + fileDBt.getName() + "!";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
         }
+    }
+
+    @DeleteMapping("/files/{id}")
+    public ResponseEntity<Void> deleteFilesDBById (@PathVariable String id){
+        storageService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/filesthumb/{id}")
+    public ResponseEntity<Void> deleteThumbnail (@PathVariable String id){
+        storageService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

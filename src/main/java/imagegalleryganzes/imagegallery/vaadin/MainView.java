@@ -32,7 +32,8 @@ public class MainView extends VerticalLayout {
     private Button addNewImage = new Button("Add new Image");
     private Button gallery = new Button("Gallery");
     private Icon vaadinIcon = new Icon(VaadinIcon.VAADIN_V);
-    private Component createComponent(String mimeType, String fileName,
+
+/*    private Component createComponent(String mimeType, String fileName,
                                       InputStream stream) {
         if (mimeType.startsWith("text")) {
             return createTextComponent(stream);
@@ -92,7 +93,7 @@ public class MainView extends VerticalLayout {
 
     MemoryBuffer buffer = new MemoryBuffer();
     Upload upload = new Upload(buffer);
-    Div output = new Div();
+    Div output = new Div();*/
 
 
 
@@ -106,7 +107,7 @@ public class MainView extends VerticalLayout {
 
         add(vaadinIcon);
         add(mainViewLabel);
-        upload.addSucceededListener(event -> {
+        /*upload.addSucceededListener(event -> {
             Component component = createComponent(event.getMIMEType(),
                     event.getFileName(), buffer.getInputStream());
             output.removeAll();
@@ -122,7 +123,7 @@ public class MainView extends VerticalLayout {
             output.removeAll();
         });
 
-        add(upload, output);
+        add(upload, output);*/
 
         setAlignItems(Alignment.CENTER);
 

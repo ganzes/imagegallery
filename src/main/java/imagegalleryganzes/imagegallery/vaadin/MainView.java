@@ -28,7 +28,8 @@ import java.util.Iterator;
 @Route
 public class MainView extends VerticalLayout {
 
-    private Label mainViewLabel = new Label("Image gallery project");
+    private Label mainViewLabel = new Label("Dokumentacja Swaggera:" +
+            "https://mysterious-anchorage-16937.herokuapp.com/swagger-ui.html");
     private Button addNewImage = new Button("Add new Image");
     private Button gallery = new Button("Gallery");
     private Icon vaadinIcon = new Icon(VaadinIcon.VAADIN_V);

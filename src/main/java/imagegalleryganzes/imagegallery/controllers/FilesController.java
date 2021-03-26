@@ -26,7 +26,6 @@ public class FilesController {
     private static final String SUCCESS = "Uploaded the file successfully: ";
     private static final String FAILED = "Could not upload the file: ";
 
-
     @Autowired
     FilesStorageService storageService;
 

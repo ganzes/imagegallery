@@ -19,7 +19,7 @@ public class ImagegallerywaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... arg) throws Exception {
-		//storageService.deleteAll();//deletes all saved files, to have it store it, just delete or comment this line
+		storageService.deleteAll();//deletes all saved files, to have it store it, just delete or comment this line
 		storageService.init();
 	}
 }

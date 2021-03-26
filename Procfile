@@ -1,0 +1,1 @@
+web: java -jar out/artifacts/imagegallery_jar/imagegallery.jar --server.port=$PORT

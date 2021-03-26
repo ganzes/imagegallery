@@ -1,6 +1,7 @@
 package imagegalleryganzes.imagegallery.entities;
 
 public class ResponseMessage {
+
     private String message;
 
     public ResponseMessage(String message) {

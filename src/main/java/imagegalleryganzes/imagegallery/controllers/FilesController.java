@@ -3,6 +3,8 @@ package imagegalleryganzes.imagegallery.controllers;
 import imagegalleryganzes.imagegallery.entities.FileInfo;
 import imagegalleryganzes.imagegallery.entities.ResponseMessage;
 import imagegalleryganzes.imagegallery.repositories.FilesStorageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -19,20 +21,28 @@ import java.util.stream.Collectors;
 @Controller
 @CrossOrigin("*")
 public class FilesController {
+
+    private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
+    private static final String SUCCESS = "Uploaded the file successfully: ";
+    private static final String FAILED = "Could not upload the file: ";
+
+
     @Autowired
     FilesStorageService storageService;
 
     @PostMapping("/uploadFileToDb")
     public ResponseEntity<ResponseMessage> uploadFileToDisk(@RequestParam("file") MultipartFile file) {
-        String message = "";
+
         try {
             storageService.save(file);
 
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+            logger.info(SUCCESS + file.getOriginalFilename());
+
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(SUCCESS));
         } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+            logger.warn(FAILED + file.getOriginalFilename());
+
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(SUCCESS));
         }
     }
 

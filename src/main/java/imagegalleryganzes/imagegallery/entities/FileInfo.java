@@ -1,6 +1,7 @@
 package imagegalleryganzes.imagegallery.entities;
 
 public class FileInfo {
+
     private String name;
     private String url;
 

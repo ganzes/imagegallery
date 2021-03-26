@@ -101,19 +101,19 @@ public class FileController {
     }
 
     @DeleteMapping("/files/{id}")
-    public ResponseEntity<Void> deleteFilesDBById (@PathVariable String id){
+    public ResponseEntity<Void> deleteFilesDBById(@PathVariable String id) {
         storageService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/files/{name}")
-    public ResponseEntity<Void> deleteFilesDBByName (@PathVariable String name){
+    public ResponseEntity<Void> deleteFilesDBByName(@PathVariable String name) {
         storageService.deleteByName(name);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/filesthumb/{id}")
-    public ResponseEntity<Void> deleteThumbnail (@PathVariable String id){
+    public ResponseEntity<Void> deleteThumbnail(@PathVariable String id) {
         storageService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

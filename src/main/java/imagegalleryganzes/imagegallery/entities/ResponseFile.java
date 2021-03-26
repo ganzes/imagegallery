@@ -1,6 +1,7 @@
 package imagegalleryganzes.imagegallery.entities;
 
 public class ResponseFile {
+
     private String name;
     private String url;
     private String type;

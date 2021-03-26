@@ -36,11 +36,11 @@ public class FileStorageService {
         return fileDBRepository.findAll().stream();
     }
 
-    public void deleteById(String id){
+    public void deleteById(String id) {
         fileDBRepository.deleteById(id);
     }
 
-    public void deleteByName(String name){
+    public void deleteByName(String name) {
         fileDBRepository.deleteByName(name);
     }
 }
